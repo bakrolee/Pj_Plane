@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Index</title>
+<title>수집 성공</title>
 </head>
 <body>
-	<a href="./collect.do">콜렉트</a>
+	<h1>스케줄링 성공</h1>
 </body>
 </html>

@@ -10,6 +10,12 @@ public class FeeInfo {
 	
 	public FeeInfo() {}
 	
+	public FeeInfo(int planeId, int fee) {
+		super();
+		this.planeId = planeId;
+		this.fee = fee;
+	}
+
 	public FeeInfo(int planeId, int fee, String searchDay, String searchTime) {
 		super();
 		this.planeId = planeId;

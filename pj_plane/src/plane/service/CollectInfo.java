@@ -24,16 +24,19 @@ import plane.model.PlaneInfo;
 
 public class CollectInfo {
 	private WebDriver driver;
+//	private ChromeDriver driver;
 	private List<String> airlines;
 	private List<String> deptimes;
 	private List<String> arrtimes;
 	private List<Integer> fees;
 
+	public WebDriver getDriver() {
+		return driver;
+	}
+
 	public CollectInfo () {
 		WebDriverManager.chromedriver().setup();
-
-		driver = new ChromeDriver();
-        
+//		driver = new ChromeDriver();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("headless");
         driver = new ChromeDriver(options);

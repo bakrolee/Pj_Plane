@@ -46,12 +46,36 @@ public class PlaneInfoDao {
 			pstmt.setString(3, arlo);
 			pstmt.setString(4, air);
 			pstmt.setString(5, detime);
+			System.out.println("<id검색> 날짜: " + date + "출발지: " + delo + "도착지 : " + arlo
+					+ "항공사: " + air + "출발시간: " + detime);
 			
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
+				System.out.println("id=" + rs.getInt("id"));
 				return rs.getInt("id");
 			}
+			System.out.println("id=못찾음");
 			return -1;
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	// 새로운 id 찾기
+	public int newId(Connection conn) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT id FROM test order by id desc limit 1";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				System.out.println("id=" + rs.getInt("id"));
+				return rs.getInt("id");
+			}
+			System.out.println("id=못찾음");
+			return -2;
 		} finally {
 			DBUtil.close(rs);
 			DBUtil.close(pstmt);

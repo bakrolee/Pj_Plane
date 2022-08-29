@@ -22,15 +22,23 @@ public class CollectService {
 	private CollectInfo ci;
 	private List<String> totalAirCode;
 	
+	public CollectInfo getCi() {
+		return ci;
+	}
+
+	public void setCi(CollectInfo ci) {
+		this.ci = ci;
+	}
+
 	public List<SearchKeyWord> allRoute (String date) {
 		totalLoc();
-		int size = totalAirCode.size() * (totalAirCode.size() - 1);
+//		int size = totalAirCode.size() * (totalAirCode.size() - 1);
 		
 		String depLoc;
 		String arrLoc;
 		List<SearchKeyWord> list = new ArrayList<>();
 		
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < totalAirCode.size(); i++) {
 			depLoc = totalAirCode.get(i);
 			for (int j = 0; j < totalAirCode.size(); j++) {
 				if (depLoc != totalAirCode.get(j)) {
@@ -47,6 +55,7 @@ public class CollectService {
 		Connection conn = null;
 		totalAirCode = new ArrayList<>();
 		try {
+			conn = ConnectionProvider.getConnection();
 			totalAirCode = locDao.selectAll(conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -65,18 +74,28 @@ public class CollectService {
 			int size = 0;
 			try {
 				size = ci.find(depLoc, arrLoc, date);
+				System.out.println("사이즈: " + size);
 			} catch (IOException e) {
 				// 커스텀 예외 설정(추후)
 				e.printStackTrace();
 			}
+			
+			String searchDay = WhatDay.isToday();
+			String searchTime = WhatDay.curTime();
 
+			int id;
 			for (int i = 0; i < size; i++) {
+				id = findId(conn, date, depLoc, arrLoc, 
+						ci.getAirlines().get(i), ci.getDeptimes().get(i));
+				// id가 없을 때 처리
+				if (id == -1) {
+					plaDao.insert(conn, 
+							new PlaneInfo(null, depLoc, arrLoc, date, ci.getAirlines().get(i),
+									ci.getDeptimes().get(i), ci.getArrtimes().get(i)));
+					id = plaDao.newId(conn);
+				}
 				feeDao.insert(conn, 
-						new FeeInfo(findId(conn, date, depLoc, arrLoc, 
-								ci.getAirlines().get(i), ci.getDeptimes().get(i)), 
-						ci.getFees().get(i), 
-						WhatDay.isToday(), 
-						WhatDay.curTime()));
+						new FeeInfo(id, ci.getFees().get(i)), searchDay, searchTime);
 			}
 			conn.commit();
 		} catch (SQLException e1) {
@@ -87,7 +106,7 @@ public class CollectService {
 		} 
 		
 	}
-
+	
 	private int findId(Connection conn, String date, String depLoc, 
 			String arrLoc, String air, String depTime) throws SQLException {
 		return plaDao.findId(conn, date, depLoc, arrLoc, air, depTime);
@@ -109,10 +128,16 @@ public class CollectService {
 				e.printStackTrace();
 			}
 
+			int dupl;
 			for (int i = 0; i < size; i++) {
-				plaDao.insert(conn, 
-						new PlaneInfo(null, depLoc, arrLoc, date, ci.getAirlines().get(i),
-								ci.getDeptimes().get(i), ci.getArrtimes().get(i)));
+				// 중복체크 더 효율적으로 할 방법 없는지... 나중에 
+				dupl = findId(conn, date, depLoc, arrLoc, 
+						ci.getAirlines().get(i), ci.getDeptimes().get(i));
+				if (dupl != -1) {
+					plaDao.insert(conn, 
+							new PlaneInfo(null, depLoc, arrLoc, date, ci.getAirlines().get(i),
+									ci.getDeptimes().get(i), ci.getArrtimes().get(i)));
+				}
 			}
 			conn.commit();
 		} catch (SQLException e1) {
