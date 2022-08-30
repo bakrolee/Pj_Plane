@@ -16,7 +16,7 @@ public class PlaneInfoDao {
 	// 삽입
 	public int insert(Connection conn, PlaneInfo info) throws SQLException {
 		PreparedStatement pstmt = null;
-		String sql = "INSERT INTO test (date, dep_loc, arr_loc, airline, dep_time, arr_time) "
+		String sql = "INSERT INTO plane (date, dep_loc, arr_loc, airline, dep_time, arr_time) "
 				+ "VALUES (?, ?, ?, ?, ?, ?)";
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -33,11 +33,12 @@ public class PlaneInfoDao {
 		}
 	}
 	
+	// id 찾기
 	public int findId(Connection conn, String date, String delo, String arlo, 
 			String air, String detime) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT id FROM test WHERE date = ? AND dep_loc = ? AND arr_loc = ? "
+		String sql = "SELECT id FROM plane WHERE date = ? AND dep_loc = ? AND arr_loc = ? "
 				+ "AND airline = ? AND dep_time = ?";
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -62,11 +63,11 @@ public class PlaneInfoDao {
 		}
 	}
 	
-	// 새로운 id 찾기
+	// 새로운 id 지정해주기
 	public int newId(Connection conn) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT id FROM test order by id desc limit 1";
+		String sql = "SELECT id FROM plane order by id desc limit 1";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -85,12 +86,12 @@ public class PlaneInfoDao {
 	// 삭제 (기간 만료시 지워야 됨)
 	public int delete(Connection conn, String nowDate, String nowTime) throws SQLException {
 		PreparedStatement pstmt = null;
-//		String sql = "DELETE FROM plane WHERE date = ? AND dep_time <= ?";
-		String sql = "DELETE FROM test WHERE date = ? AND dep_time <= ?";
+		String sql = "DELETE FROM plane WHERE (date < ?) OR (date = ? AND dep_time < ?)";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, nowDate);
-			pstmt.setString(2, nowTime);
+			pstmt.setString(2, nowDate);
+			pstmt.setString(3, nowTime);
 			
 			return pstmt.executeUpdate();
 		} finally {
