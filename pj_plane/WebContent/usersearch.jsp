@@ -7,7 +7,7 @@
 <title>항공권 검색</title>
 </head>
 <body>
-	<form action="./search" method="post" onsubmit="return equalLoc()">
+	<form action="./searchplane" method="post" onsubmit="return equalLoc()">
 		<input type="date" id="Date" name="date" required /> 
 		<select id="seldep" name="dep_loc" required>
 			<option value="" disabled selected>출발지</option>
