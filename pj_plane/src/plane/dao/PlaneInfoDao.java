@@ -6,13 +6,48 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import jdbc.DBUtil;
 import plane.model.PlaneInfo;
+import plane.service.PlaneRequest;
 
 public class PlaneInfoDao {
+	// 검색시 항공권 보여주기
+	public List<PlaneInfo> selectByKeywords(Connection conn, PlaneRequest req) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM planesfees WHERE date = ? AND dep_loc = ? AND arr_loc = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			String date = req.getDate().replaceAll("[^0-9]", "");
+			
+			pstmt.setString(1, date);
+			pstmt.setString(2, req.getDep_loc());
+			pstmt.setString(3, req.getArr_loc());
+			
+			rs = pstmt.executeQuery();
+			List<PlaneInfo> list = new ArrayList<>();
+			
+			while(rs.next()) {
+				String airLine = rs.getString("airline");
+				String depTime = rs.getString("dep_time");
+				String arrTime = rs.getString("arr_time");
+				int minfee = rs.getInt("minfee");
+				int maxfee = rs.getInt("maxfee");
+				int nowfee = rs.getInt("nowfee");
+				list.add(new PlaneInfo(airLine, depTime, arrTime, minfee, maxfee, nowfee));
+			}
+			
+			return list;
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+	}
+	
 	// 삽입
 	public int insert(Connection conn, PlaneInfo info) throws SQLException {
 		PreparedStatement pstmt = null;

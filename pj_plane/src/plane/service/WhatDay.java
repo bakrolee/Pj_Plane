@@ -18,6 +18,7 @@ public class WhatDay {
 	}
 	
 	public static String curTime() {
-		return LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute();
+		return String.format("%02d", LocalDateTime.now().getHour()) + ":" 
+				+ String.format("%02d", LocalDateTime.now().getMinute());
 	}
 }

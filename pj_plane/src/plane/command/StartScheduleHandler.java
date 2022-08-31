@@ -17,7 +17,7 @@ public class StartScheduleHandler implements CommandHandler {
 		js.start();
 		js.collectAll();
 		js.collectFee();
-		js.expiredPlane();
+//		js.expiredPlane();
 		
 		return "/WEB-INF/view/success.jsp";
 	}

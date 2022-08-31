@@ -8,8 +8,28 @@ public class PlaneInfo {
 	private String airLine;
 	private String depTime;
 	private String arrTime;
+	private int minfee; 
+	private int maxfee; 
+	private int nowfee; 
 	
 	public PlaneInfo() {}
+
+	public PlaneInfo(String airLine, String depTime, String arrTime, int minfee, int maxfee, int nowfee) {
+		super();
+		this.airLine = airLine;
+		this.depTime = depTime;
+		this.arrTime = arrTime;
+		this.minfee = minfee;
+		this.maxfee = maxfee;
+		this.nowfee = nowfee;
+	}
+
+	public PlaneInfo(String airLine, String depTime, String arrTime) {
+		super();
+		this.airLine = airLine;
+		this.depTime = depTime;
+		this.arrTime = arrTime;
+	}
 
 	public PlaneInfo(Integer id, String depLoc, String arrLoc, String date, String airLine, String depTime, String arrTime) {
 		super();
@@ -20,6 +40,30 @@ public class PlaneInfo {
 		this.airLine = airLine;
 		this.depTime = depTime;
 		this.arrTime = arrTime;
+	}
+
+	public int getMinfee() {
+		return minfee;
+	}
+
+	public void setMinfee(int minfee) {
+		this.minfee = minfee;
+	}
+
+	public int getMaxfee() {
+		return maxfee;
+	}
+
+	public void setMaxfee(int maxfee) {
+		this.maxfee = maxfee;
+	}
+
+	public int getNowfee() {
+		return nowfee;
+	}
+
+	public void setNowfee(int nowfee) {
+		this.nowfee = nowfee;
 	}
 
 	public Integer getId() {
@@ -76,5 +120,10 @@ public class PlaneInfo {
 
 	public void setArrTime(String arrTime) {
 		this.arrTime = arrTime;
+	}
+
+	@Override
+	public String toString() {
+		return "PlaneInfo [airLine=" + airLine + ", depTime=" + depTime + ", arrTime=" + arrTime + "]";
 	}
 }
