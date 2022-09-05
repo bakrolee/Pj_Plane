@@ -42,8 +42,10 @@
 		var oneDay = 86400000;
 		return Date.now() + (oneDay * plus);
 	}
-
-	document.getElementById("Date").setAttribute("min", someday(Date.now()));
+	
+	var start = operateDate(-1);
+// 	document.getElementById("Date").setAttribute("min", someday(Date.now()));
+	document.getElementById("Date").setAttribute("min", someday(start));
 	
 	var tomorrow = operateDate(1);
 	document.getElementById("Date").setAttribute("max", someday(tomorrow));

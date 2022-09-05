@@ -38,7 +38,9 @@ public class PlaneInfoDao {
 				int minfee = rs.getInt("minfee");
 				int maxfee = rs.getInt("maxfee");
 				int nowfee = rs.getInt("nowfee");
-				list.add(new PlaneInfo(airLine, depTime, arrTime, minfee, maxfee, nowfee));
+				Integer id = rs.getInt("id");
+				
+				list.add(new PlaneInfo(airLine, depTime, arrTime, minfee, maxfee, nowfee, id));
 			}
 			
 			return list;

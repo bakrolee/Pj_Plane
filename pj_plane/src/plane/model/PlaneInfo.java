@@ -14,7 +14,7 @@ public class PlaneInfo {
 	
 	public PlaneInfo() {}
 
-	public PlaneInfo(String airLine, String depTime, String arrTime, int minfee, int maxfee, int nowfee) {
+	public PlaneInfo(String airLine, String depTime, String arrTime, int minfee, int maxfee, int nowfee, Integer id) {
 		super();
 		this.airLine = airLine;
 		this.depTime = depTime;
@@ -22,6 +22,7 @@ public class PlaneInfo {
 		this.minfee = minfee;
 		this.maxfee = maxfee;
 		this.nowfee = nowfee;
+		this.id = id;
 	}
 
 	public PlaneInfo(String airLine, String depTime, String arrTime) {

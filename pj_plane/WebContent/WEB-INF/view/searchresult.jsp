@@ -37,7 +37,14 @@
 					<span class="nowfee">${ plane.nowfee }</span>
 					<span class="minfee">${ plane.minfee }</span>
 					<span class="maxfee">${ plane.maxfee }</span>
-					<button>가격차트보기</button>
+					<span>
+						<p>아이디: ${ plane.id }</p>
+						<form method="post">
+							<input type="hidden" name="id" value="${ plane.id }" />
+							<input type="button" id="submit" value="가격차트보기" onclick="open_popup();" />
+						</form>
+						
+					</span>
 				</li>
 			</c:forEach>
 		</c:if>
@@ -46,7 +53,31 @@
 		<h3>검색하신 항공권이 없습니다</h3>
 	</c:if>
 </body>
+
 <script type="text/javascript">
-	
+/* $(document).ready(function(){
+	$("#submit").click(function(){   //submit 버튼을 클릭하였을 때
+		$.ajax({
+			type: "post",   //post 방식으로 전송
+			url: "./viewchart",   //데이터를 주고받을 파일 주소
+			data: $('input[name=id]').val(),   //위의 변수에 담긴 데이터를 전송해준다.
+			success : function(reslut){   
+				if (result) {
+					alert("불러오기 성공");
+				}
+			}
+		});
+	});
+}) */
+
+	function open_popup() {
+		window.open("./viewchart", "chart", "width=500, height=400");
+		
+		/* var frmData = document.frmData;
+		frmData.target = title;
+		frmData.action = url;
+		
+		frmData.submit(); */
+	}
 </script>
 </html>
