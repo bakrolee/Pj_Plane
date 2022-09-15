@@ -81,16 +81,16 @@ public class JobSchedule {
 	}
 	
 	// 5분마다 만료된 항공권+가격 데이터 삭제
-	public void expiredPlane() throws SchedulerException {
-		JobDetail job = newJob(ExpiredPlane.class).withIdentity("expire", "gr3").build();
-		
-		Trigger trigger = newTrigger().withIdentity("expire", "gr3")
-				.startNow()
-				.withSchedule(cronSchedule("0 0/5 06-22 * * ?")) // 5분 마다 (6시부터 22시 55분까지)
-				.withPriority(3)
-				.build();
-		
-		s.scheduleJob(job, trigger);
-	}
+//	public void expiredPlane() throws SchedulerException {
+//		JobDetail job = newJob(ExpiredPlane.class).withIdentity("expire", "gr3").build();
+//		
+//		Trigger trigger = newTrigger().withIdentity("expire", "gr3")
+//				.startNow()
+//				.withSchedule(cronSchedule("0 0/5 06-22 * * ?")) // 5분 마다 (6시부터 22시 55분까지)
+//				.withPriority(3)
+//				.build();
+//		
+//		s.scheduleJob(job, trigger);
+//	}
 	
 }
